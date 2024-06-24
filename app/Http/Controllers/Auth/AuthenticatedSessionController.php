@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -28,7 +29,17 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+        Log::info('LoginController: User type - ' . $user->type);
+
+        if ($user->type === 'super admin') {
+            return redirect()->route('superAdmin.dashboard');
+        } elseif ($user->type === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        Log::info('LoginController: Redirecting to user dashboard');
+        return redirect()->intended(route('user.dashboard')); // Pengalihan default untuk pengguna biasa
     }
 
     /**

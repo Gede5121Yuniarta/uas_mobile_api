@@ -3,45 +3,56 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // use HasApiTokens, 
+    use notifiable;
     protected $fillable = [
         'name',
         'email',
         'password',
+        'type',
+        'google_id',
+        'api_token',
+        'brand_name'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    protected $casts = [
+        'email_verivied_at' => 'datetime',
+        'type' => 'string',
+    ];
+    public function getJWTIdentifier()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->getKey();
     }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    public function kosts()
+    {
+        return $this->hasMany(Kost::class, 'owner_id');
+    }
+
+
+    // protected function type() : Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn($value)=>["user", "admin", "super admin"][$value],
+    //     );
+    // }
 }
+

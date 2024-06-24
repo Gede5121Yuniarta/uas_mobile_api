@@ -1,0 +1,7 @@
+#register-dropdown {
+    display: none;
+}
+
+#register-dropdown.show {
+    display: block;
+}
