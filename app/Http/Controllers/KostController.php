@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kost;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,9 @@ class KostController extends Controller
     public function index()
     {
         $adminId = Auth::id();
-        $kosts = Kost::where('owner_id', $adminId)->paginate(10);
+        $kosts = Kost::where('owner_id', $adminId)
+        ->latest()
+        ->paginate(10);
 
         return view('kosts.index', compact('kosts'));
     }
@@ -328,8 +331,13 @@ class KostController extends Controller
 
     public function showDetailForSuperAdmin(Kost $kost, $slug)
     {
+        // $kost = Kost::where('slug', $slug)->firstOrFail();
+        // return view('detail', compact('kost'));
         $kost = Kost::where('slug', $slug)->firstOrFail();
-        return view('detail', compact('kost'));
+        $mediaFiles = json_decode($kost->media, true);
+        $rooms = Room::where('kost_id', $kost->id)->get(); // Mengambil daftar kamar yang terkait dengan kost
+
+        return view('detail', compact('kost', 'mediaFiles', 'rooms'));
     }
 
 }

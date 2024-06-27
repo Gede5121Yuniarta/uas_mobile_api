@@ -23,8 +23,6 @@ return new class extends Migration
             $table->enum('kost_type', ['campuran', 'laki-laki', 'perempuan'])->default('campuran');
             $table->text('facilities')->nullable(); // Mengubah dari JSON ke text
             $table->text('rules')->nullable(); // Mengubah dari JSON ke text
-            // $table->string('media')->nullable(); // Mengubah dari JSON ke string
-            // $table->json('media')->nullable(); // Change data type to json
             $table->text('media')->nullable();
             $table->string('whatsapp_number')->nullable(); // Menambahkan kolom nomor WhatsApp
             $table->string('facebook')->nullable(); // Menambahkan kolom Facebook

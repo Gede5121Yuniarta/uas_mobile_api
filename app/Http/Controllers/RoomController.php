@@ -70,20 +70,6 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
     }
 
-    // public function show(Room $room)
-    // {
-    //     return view('rooms.show', compact('room'));
-    // }
-
-    // public function show($slug)
-    // {
-    //     $kost = Kost::where('slug', $slug)->firstOrFail();
-    //     $mediaFiles = json_decode($kost->media, true);
-    //     $rooms = Room::where('kost_id', $kost->id)->where('status', 'available')->get(); // Filter kamar yang tersedia
-
-    //     return view('rooms.detail', compact('kost', 'mediaFiles', 'rooms'));
-    // }
-
     public function show($slug)
     {
         // Mengambil data room berdasarkan slug
@@ -96,24 +82,6 @@ class RoomController extends Controller
 
         return view('rooms.detail', compact('room', 'kost', 'mediaFiles'));
     }
-
-    // public function showRoom($slug)
-    // {
-    //     // Mengambil data room berdasarkan slug
-    //     $room = Room::where('slug', $slug)->firstOrFail();
-    //     // Mengambil data kost terkait
-    //     $kost = Kost::findOrFail($room->kost_id);
-    //     // Mengambil media files untuk room
-    //     // $mediaFiles = explode(',', $room->rooms_media);
-    //     $mediaFiles = json_decode($room->rooms_media, true);
-    //     // Mengambil kamar lain yang tersedia di kost yang sama
-    //     $otherAvailableRooms = Room::where('kost_id', $kost->id)
-    //         ->where('status', 'available')
-    //         ->where('id', '!=', $room->id)
-    //         ->get();
-
-    //     return view('rooms.detail', compact('room', 'kost', 'mediaFiles', 'otherAvailableRooms'));
-    // }
 
     public function showRoom($slug)
     {
@@ -128,7 +96,7 @@ class RoomController extends Controller
 
         // Mengambil kamar lain yang tersedia di kost yang sama
         $otherAvailableRooms = Room::where('kost_id', $kost->id)
-            ->where('status', 'available')
+            ->where('status', 'Tersedia')
             ->where('id', '!=', $room->id)
             ->get();
 
@@ -145,28 +113,6 @@ class RoomController extends Controller
 
         return view('rooms.detail', compact('room', 'kost', 'mediaFiles', 'otherAvailableRooms'));
     }
-
-    // public function show($slug)
-    // {
-    //     // Mengambil data room berdasarkan slug
-    //     $room = Room::where('slug', $slug)->firstOrFail();
-    //     // Mengambil data kost terkait
-    //     $kost = Kost::findOrFail($room->kost_id);
-    //     // Mengambil media files untuk room
-    //     $roomsMedia = $room->rooms_media;
-
-    //     if (empty($roomsMedia)) {
-    //         dd('rooms_media is empty');
-    //     }
-
-    //     $mediaFiles = json_decode($roomsMedia, true);
-
-    //     if (empty($mediaFiles)) {
-    //         dd('mediaFiles is empty');
-    //     }
-
-    //     return view('rooms.detail', compact('room', 'kost', 'mediaFiles'));
-    // }
 
     public function edit(Room $room)
     {
@@ -185,7 +131,7 @@ class RoomController extends Controller
             'description' => 'nullable|string',
             'facilities' => 'nullable|array',
             'rooms_media' => 'nullable|array',
-            'status' => 'required|in:available,rented', // Validasi untuk status
+            'status' => 'required|in:Tersedia,Penuh', // Validasi untuk status
         ]);
 
         $uploadedMedia = [];

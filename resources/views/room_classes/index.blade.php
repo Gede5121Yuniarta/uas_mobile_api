@@ -11,6 +11,7 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Kelas</th>
+                    <th>Kost</th>
                     <th>Harga</th>
                     <th>Aksi</th>
                 </tr>
@@ -20,6 +21,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $roomClass->classes_name }}</td>
+                        <td>{{ $roomClass->kost->name_kost }}</td>
                         <td>{{ $roomClass->price }}</td>
                         {{-- <td>{{ 'Rp' . number_format(preg_replace('/[^0-9]/', '', $roomClass->price), 0, ',', '.') }}</td> --}}
                         <td>

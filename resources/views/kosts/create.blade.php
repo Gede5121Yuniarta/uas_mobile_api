@@ -12,11 +12,16 @@
                         <input type="text" id="name_kost" name="name_kost" required class="form-control"
                             value="{{ old('name_kost') }}">
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="description">Description:</label>
                         <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
+                        <label for="description">Description:</label>
+                        <input id="description" name="description" type="hidden" value="{{ old('description') }}">
+                        <trix-editor input="description" class="form-control"></trix-editor>
+                    </div>
+                    {{-- <div class="form-group">
                         <label for="kost_type">Type:</label>
                         <select id="kost_type" name="kost_type" class="form-control">
                             <option value="campuran" {{ old('kost_type') == 'campuran' ? 'selected' : '' }}>Campuran
@@ -26,6 +31,24 @@
                             <option value="perempuan" {{ old('kost_type') == 'perempuan' ? 'selected' : '' }}>Perempuan
                             </option>
                         </select>
+                    </div> --}}
+                    <div class="form-group">
+                        <label for="kost_type">Type:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="kost_type" id="campuran" value="campuran"
+                                {{ old('kost_type') == 'campuran' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="campuran">Campuran</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="kost_type" id="laki-laki" value="laki-laki"
+                                {{ old('kost_type') == 'laki-laki' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="laki-laki">Laki-laki</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="kost_type" id="perempuan" value="perempuan"
+                                {{ old('kost_type') == 'perempuan' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="perempuan">Perempuan</label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="facilities">Facilities:</label>
@@ -144,7 +167,13 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Add Kost</button>
+            {{-- <button type="submit" class="btn btn-primary mt-3">Add Kost</button> --}}
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                </div>
+            </div>
         </form>
     </div>
 @endsection

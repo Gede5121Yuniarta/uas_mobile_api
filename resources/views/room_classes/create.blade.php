@@ -8,18 +8,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="kost_id">Kost:</label>
+                        <select id="kost_id" name="kost_id" class="form-control" required>
+                            <option value="">Pilih Kost</option>
+                            @foreach ($kosts as $kost)
+                                <option value="{{ $kost->id }}">{{ $kost->name_kost }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="classes_name">Nama:</label>
                         <input type="text" id="classes_name" name="classes_name" required class="form-control"
                             value="{{ old('classes_name') }}">
                     </div>
-                    {{-- <div class="form-group">
-                        <label for="price">Harga:</label>
-                        <input type="number" id="price" name="price" required class="form-control" value="{{ old('price') }}">
-                    </div> --}}
-                    {{-- <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" name="price" placeholder="Rp">
-                    </div> --}}
                     <div class="form-group">
                         <label for="price">Price</label>
                         <div class="input-group">
@@ -27,27 +28,20 @@
                                 <span class="input-group-text">Rp</span>
                             </div>
                             <input type="text" class="form-control" id="price" name="price"
-                                placeholder="Enter price">
+                                placeholder="Enter price" value="{{ old('price') }}">
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Tambah Kelas Kamar</button>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                </div>
+            </div>
         </form>
     </div>
 @endsection
-
-{{-- @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var priceInput = document.getElementById('price');
-            priceInput.addEventListener('input', function() {
-                var value = this.value.replace(/[^0-9]/g, '');
-                this.value = 'Rp.' + value;
-            });
-        });
-    </script>
-@endsection --}}
 
 @section('scripts')
     <script>

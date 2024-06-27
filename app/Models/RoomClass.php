@@ -9,6 +9,7 @@ class RoomClass extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'kost_id',
         'classes_name',
         'price',
     ];
@@ -37,4 +38,9 @@ class RoomClass extends Model
         return 'Rp' . number_format($value, 0, ',', '.');
     }
 
+    // In RoomClass model
+    public function kost()
+    {
+        return $this->belongsTo(Kost::class);
+    }
 }

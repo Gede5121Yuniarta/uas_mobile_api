@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('room_classes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('kost_id'); // Kolom referensi ke tabel kosts
             $table->string('classes_name');
             $table->decimal('price', 10, 2);
             $table->timestamps();

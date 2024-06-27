@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoomClass;
+use App\Models\Kost;
 use Illuminate\Http\Request;
 
 class RoomClassController extends Controller
@@ -15,18 +16,21 @@ class RoomClassController extends Controller
 
     public function create()
     {
-        return view('room_classes.create');
+        $kosts = Kost::all();
+        return view('room_classes.create', compact('kosts'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'kost_id' => 'required|exists:kosts,id', // Memastikan kost_id diperlukan dan ada di tabel kosts
             'classes_name' => 'required|string|max:255', // Memastikan classes_name diperlukan
             'price' => 'required|numeric',
         ]);
 
-        // Menyimpan room class dengan nilai classes_name dan price dari request
+        // Menyimpan room class dengan nilai kost_id, classes_name, dan price dari request
         $roomClass = new RoomClass();
+        $roomClass->kost_id = $request->kost_id;
         $roomClass->classes_name = $request->classes_name;
         $roomClass->price = $request->price;
         $roomClass->save();
@@ -41,17 +45,20 @@ class RoomClassController extends Controller
 
     public function edit(RoomClass $roomClass)
     {
-        return view('room_classes.edit', compact('roomClass'));
+        $kosts = Kost::all();
+        return view('room_classes.edit', compact('roomClass', 'kosts'));
     }
 
     public function update(Request $request, RoomClass $roomClass)
     {
         $request->validate([
+            'kost_id' => 'required|exists:kosts,id', // Memastikan kost_id diperlukan dan ada di tabel kosts
             'classes_name' => 'required|string|max:255', // Memastikan classes_name diperlukan
             'price' => 'required|numeric',
         ]);
 
-        // Memperbarui room class dengan nilai classes_name dan price dari request
+        // Memperbarui room class dengan nilai kost_id, classes_name, dan price dari request
+        $roomClass->kost_id = $request->kost_id;
         $roomClass->classes_name = $request->classes_name;
         $roomClass->price = $request->price;
         $roomClass->save();

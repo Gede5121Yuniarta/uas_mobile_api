@@ -9,6 +9,18 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label for="kost_id">Kost:</label>
+                        <select id="kost_id" name="kost_id" class="form-control" required>
+                            <option value="">Pilih Kost</option>
+                            @foreach ($kosts as $kost)
+                                <option value="{{ $kost->id }}"
+                                    {{ $kost->id == $roomClass->kost_id ? 'selected' : '' }}>
+                                    {{ $kost->name_kost }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="classes_name">Nama:</label>
                         <input type="text" id="classes_name" name="classes_name" required class="form-control"
                             value="{{ old('classes_name', $roomClass->classes_name) }}">
@@ -25,7 +37,12 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Update Kelas Kamar</button>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                </div>
+            </div>
         </form>
     </div>
 @endsection

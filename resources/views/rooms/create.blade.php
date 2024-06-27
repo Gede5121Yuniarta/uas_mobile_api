@@ -19,8 +19,11 @@
                 <label for="class_id">Class:</label>
                 <select id="class_id" name="class_id" class="form-control" required>
                     @foreach ($roomClasses as $roomClass)
+                        {{-- <option value="{{ $roomClass->id }}" {{ old('class_id') == $roomClass->id ? 'selected' : '' }}>
+                            {{ $roomClass->classes_name }} - Rp{{ number_format($roomClass->price, 2) }}
+                        </option> --}}
                         <option value="{{ $roomClass->id }}" {{ old('class_id') == $roomClass->id ? 'selected' : '' }}>
-                            {{ $roomClass->classes_name }}
+                            {{ $roomClass->classes_name }} - {{ $roomClass->price }}
                         </option>
                     @endforeach
                 </select>
@@ -30,9 +33,14 @@
                 <input type="text" id="rooms_name" name="rooms_name" class="form-control" value="{{ old('rooms_name') }}"
                     required>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
+            </div> --}}
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input id="description" name="description" type="hidden" value="{{ old('description') }}">
+                <trix-editor input="description" class="form-control"></trix-editor>
             </div>
             <div class="form-group">
                 <label for="facilities">Facilities:</label>
@@ -68,7 +76,12 @@
                     <label class="custom-file-label" id="selectedFiles" for="rooms_media">Choose files</label>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Add Room</button>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                </div>
+            </div>
         </form>
     </div>
 @endsection

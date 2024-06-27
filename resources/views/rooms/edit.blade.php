@@ -23,7 +23,7 @@
                     @foreach ($roomClasses as $roomClass)
                         <option value="{{ $roomClass->id }}"
                             {{ old('class_id', $room->class_id) == $roomClass->id ? 'selected' : '' }}>
-                            {{ $roomClass->classes_name }}
+                            {{ $roomClass->classes_name }} - {{ $roomClass->price }}
                         </option>
                     @endforeach
                 </select>
@@ -33,9 +33,14 @@
                 <input type="text" id="rooms_name" name="rooms_name" class="form-control"
                     value="{{ old('rooms_name', $room->rooms_name) }}" required>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" class="form-control">{{ old('description', $room->description) }}</textarea>
+            </div> --}}
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input id="description" name="description" type="hidden" value="{{ old('description', $room->description) }}">
+                <trix-editor input="description" class="form-control"></trix-editor>
             </div>
             <div class="form-group">
                 <label for="facilities">Facilities:</label>
@@ -70,11 +75,16 @@
                         onchange="showUploadedFiles(this)">
                     <label class="custom-file-label" id="selectedFiles" for="rooms_media">Choose files</label>
                 </div>
-                @if ($kost->rooms_media)
-                    <p>Current Media: {{ $kost->rooms_media }}</p>
+                @if ($room->rooms_media)
+                    <p>Current Media: {{ $room->rooms_media }}</p>
                 @endif
             </div>
-            <button type="submit" class="btn btn-primary">Update Room</button>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-primary mt-3">Simpan</button>
+                </div>
+            </div>
         </form>
     </div>
 @endsection

@@ -1,31 +1,36 @@
-{{-- @php
-    $properties = [
-        [
-            'slug' => 'property-1',
-            'photo' => 'frontend/assets/images/detail-1.jpg',
-            'category' => 'Boarding house aa',
-            'price' => 250000,
-            'name' => 'Women',
-            'address' => '1 room',
-        ],
-        [
-            'slug' => 'property-2',
-            'photo' => 'frontend/assets/images/detail-2.jpg',
-            'category' => 'Boarding house ab',
-            'price' => 250000,
-            'name' => 'Man',
-            'address' => '3 room',
-        ],
-        [
-            'slug' => 'property-3',
-            'photo' => 'frontend/assets/images/detail-3.jpg',
-            'category' => 'Boarding house ac',
-            'price' => 250000,
-            'name' => 'Mixed',
-            'address' => '6 room',
-        ],
-    ];
-@endphp --}}
+@php
+    // $properties = [
+    //     [
+    //         'slug' => 'property-1',
+    //         'photo' => 'frontend/assets/images/detail-1.jpg',
+    //         'category' => 'Boarding house aa',
+    //         'price' => 250000,
+    //         'name' => 'Women',
+    //         'address' => '1 room',
+    //     ],
+    //     [
+    //         'slug' => 'property-2',
+    //         'photo' => 'frontend/assets/images/detail-2.jpg',
+    //         'category' => 'Boarding house ab',
+    //         'price' => 250000,
+    //         'name' => 'Man',
+    //         'address' => '3 room',
+    //     ],
+    //     [
+    //         'slug' => 'property-3',
+    //         'photo' => 'frontend/assets/images/detail-3.jpg',
+    //         'category' => 'Boarding house ac',
+    //         'price' => 250000,
+    //         'name' => 'Mixed',
+    //         'address' => '6 room',
+    //     ],
+    // ];
+
+    // Mengelompokkan kosts berdasarkan brand_name
+    $groupedKosts = $kosts->groupBy(function ($item) {
+        return $item->admin->brand_name;
+    });
+@endphp
 
 @extends('layouts.frontend')
 
@@ -183,7 +188,7 @@
         </div>
     </section> --}}
 
-    <section class="section" id="popular">
+    {{-- <section class="section" id="popular">
         <div class="container">
             <span class="section__subtitle">Daftar Kost</span>
             <h2 class="section__title">Daftar Kost<span>.</span></h2>
@@ -207,7 +212,7 @@
                             </div>
                             <div class="property__data">
                                 {{-- <h2 class="property__price"><span>RP. --}}
-                                {{-- </span>{{ number_format($kost->price) }}<span>/month</span></h2> --}}
+    {{-- </span>{{ number_format($kost->price) }}<span>/month</span></h2>
                                 <h3 class="property__title">{{ $kost->name_kost }}</h3>
                                 <span class="property__description">{{ $kost->admin->brand_name }}</span>
                                 <span class="property__description">{{ $kost->location }}</span>
@@ -217,7 +222,102 @@
                 @endforeach
             </div>
         </div>
+    </section> --}}
+
+    {{-- @section --}}
+    {{-- <section class="section" id="popular">
+        <div class="container">
+            {{-- <span class="section__subtitle">Daftar Kost</span>
+            <h2 class="section__title">Daftar Kost<span>.</span></h2>
+
+            @foreach ($groupedKosts as $brandName => $brandKosts)
+                <div class="brand-section">
+                    <h2 class="brand__title">{{ $brandName }}<span>:</span></h2>
+                    <div class="popular__container grid">
+                        @foreach ($brandKosts as $kost)
+                            <article class="property__card">
+                                <a href="{{ route('detail', Str::slug($kost->name_kost)) }}">
+                                    <div class="property__images">
+                                        @php
+                                            $mediaFiles = explode(',', $kost->media);
+                                        @endphp
+
+                                        @if (!empty($mediaFiles) && $mediaFiles[0] != '')
+                                            <img src="{{ asset($mediaFiles[0]) }}" alt="{{ $kost->name_kost }}"
+                                                class="property__img" />
+                                        @else
+                                            <img src="{{ asset('placeholder.jpg') }}" alt="No Kost Image"
+                                                class="property__img" />
+                                        @endif
+                                        <span class="property__badge">{{ $kost->kost_type }}</span>
+                                    </div>
+                                    <div class="property__data">
+                                        <h3 class="property__title">{{ $kost->name_kost }}</h3>
+                                        <span class="property__description">{{ $kost->admin->brand_name }}</span>
+                                        <span class="property__description">{{ $kost->location }}</span>
+                                    </div>
+                                </a>
+                            </article>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="brand-section">
+                    <h2 class="brand__title">Lokasi Kost {{$brandName}}:</h2>
+                </div>
+                <!-- Map container for each brand -->
+                <div id="map-{{ Str::slug($brandName) }}" style="height: 400px;"></div>
+        </div>
+        @endforeach
+        </div>
+    </section> --}}
+    <section class="section" id="popular">
+        <div class="container">
+            {{-- <span class="section__subtitle">Daftar Kost</span> --}}
+            <h2 class="section__title">Daftar Kost<span>.</span></h2>
+
+            @foreach ($groupedKosts as $brandName => $brandKosts)
+                <div class="brand-section">
+                    <h2 class="brand__title">{{ $brandName }}<span>:</span></h2>
+                    <div class="popular__container grid">
+                        @foreach ($brandKosts as $kost)
+                            <article class="property__card">
+                                <a href="{{ route('detail', Str::slug($kost->name_kost)) }}">
+                                    <div class="property__images">
+                                        @php
+                                            $mediaFiles = explode(',', $kost->media);
+                                        @endphp
+
+                                        @if (!empty($mediaFiles) && $mediaFiles[0] != '')
+                                            <img src="{{ asset($mediaFiles[0]) }}" alt="{{ $kost->name_kost }}"
+                                                class="property__img" />
+                                        @else
+                                            <img src="{{ asset('placeholder.jpg') }}" alt="No Kost Image"
+                                                class="property__img" />
+                                        @endif
+                                        <span class="property__badge">{{ $kost->kost_type }}</span>
+                                    </div>
+                                    <div class="property__data">
+                                        <h3 class="property__title">{{ $kost->name_kost }}</h3>
+                                        <span class="property__description">{{ $kost->admin->brand_name }}</span>
+                                        <span class="property__description">{{ $kost->location }}</span>
+                                    </div>
+                                </a>
+                            </article>
+                        @endforeach
+                    </div>
+                    <div class="brand-section">
+                        <h2 class="brand__title">Lokasi Kost {{ $brandName }}:</h2>
+                    </div>
+                    <!-- Map container for each brand -->
+                    <div id="map-{{ Str::slug($brandName) }}" style="height: 400px;"></div>
+                    @if (!$loop->last)
+                        <div class="mb-5"></div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
     </section>
+    {{-- @endsection --}}
 
     {{-- <section class="section" id="property">
         <div class="container">
@@ -275,6 +375,11 @@
     </section>
 @endsection
 
+
+@section('leaflet')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+@endsection
+
 @push('style-alt')
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/homepage.css') }}" />
     <style>
@@ -295,4 +400,31 @@
         }
     </script>
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @foreach ($groupedKosts as $brandName => $brandKosts)
+                // Initialize map
+                var map{{ Str::slug($brandName) }} = L.map('map-{{ Str::slug($brandName) }}').setView([
+                    {{ $brandKosts->first()->latitude }}, {{ $brandKosts->first()->longitude }}
+                ], 13);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map{{ Str::slug($brandName) }});
+
+                @foreach ($brandKosts as $kost)
+                    var marker = L.marker([{{ $kost->latitude }}, {{ $kost->longitude }}]).addTo(
+                        map{{ Str::slug($brandName) }});
+                    marker.bindPopup("<b>{{ $kost->name_kost }}</b><br>{{ $kost->location }}");
+                @endforeach
+            @endforeach
+        });
+    </script>
 @endpush
+
+<style>
+    .mb-5 {
+        margin-bottom: 50px;
+    }
+</style>

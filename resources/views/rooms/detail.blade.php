@@ -9,10 +9,10 @@
 @endsection
 
 @section('content')
-    <section class="home section" id="home">
+    {{-- <section class="home section" id="home">
         <div class="home__container container grid">
             <h1 class="home__title">{{ $kost->name_kost }}</h1>
-            <h2>{{ $room->rooms_name }}</h2>
+            <h2 class="home__title2">{{ $room->rooms_name }}</h2>
             @php
                 $mediaFiles = json_decode($room->rooms_media, true);
             @endphp
@@ -48,23 +48,40 @@
 
         <div class="card__container">
             <article class="description__content">
-                <div class="description__header">
-                    <!-- header content -->
+                <div class="description__header" style="display: flex; flex-direction: column;">
+                    <div class="price-section">
+                        <span class="price-label">Harga: </span>
+                        <span class="price-data">{{ $room->roomClass->price }}</span>
+                    </div>
+                    <br>
+                    <div class="class-section">
+                        <span class="class-label">Class: </span>
+                        <span class="class-data">{{ $room->roomClass->classes_name }}</span>
+                    </div>
                 </div>
+
                 <p class="description__text" style="text-align: justify;">
                 <div>{{ $room->description }}</div>
                 </p>
                 <div class="description__footer">
                     <div class="facilities-rules-container">
                         <div class="facilities-section">
-                            <h5>Facilities:</h5>
+                            <h5>Fasilitas Kost:</h5>
                             <ul>
                                 @foreach (json_decode($kost->facilities) as $facility)
                                     <li>{{ $facility }}</li>
                                 @endforeach
                             </ul>
                         </div>
-                </div>
+                        <div class="rules-section">
+                            <h5>Fasilitas Kamar:</h5>
+                            <ul>
+                                @foreach (json_decode($room->facilities) as $facilitiesRoom)
+                                    <li>{{ $facilitiesRoom }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
             </article>
             <article class="contact__content">
                 <div class="contact__header">
@@ -122,12 +139,205 @@
                 </div>
             </article>
         </div>
+    </section> --}}
+
+    <section class="home section" id="home">
+        <div class="home__container container grid">
+            <h1 class="home__title">{{ $kost->name_kost }}</h1>
+            <h2 class="home__title2">{{ $room->rooms_name }}</h2>
+        </div>
     </section>
+
+    <div class="content-wrapper">
+        <div class="media-section">
+            <div class="home__img-container">
+                @php
+                    $mediaFiles = json_decode($room->rooms_media, true);
+                @endphp
+                @if (!empty($mediaFiles) && $mediaFiles[0] != '')
+                    <img class="home__img" src="{{ asset($mediaFiles[0]) }}" alt="{{ $room->rooms_name }}" />
+                @else
+                    <p>No media available.</p>
+                @endif
+            </div>
+
+            <section class="galleries container" style="margin-top: 20px; font-size: 0.8em;">
+                @if (!empty($mediaFiles))
+                    @foreach ($mediaFiles as $index => $media)
+                        <img class="{{ $index === 0 ? 'active' : '' }}" src="{{ asset($media) }}" alt="Gallery Image" />
+                    @endforeach
+                @else
+                    <p>No media available.</p>
+                @endif
+            </section>
+        </div>
+
+        <div class="info-section">
+            <article class="description__content">
+                <div class="description__header" style="display: flex; flex-direction: column;">
+                    <div class="price-section">
+                        <span class="price-label">Harga: </span>
+                        <span class="price-data">{{ $room->roomClass->price }}</span>
+                    </div>
+                    <br>
+                    <div class="class-section">
+                        <span class="class-label">Class: </span>
+                        <span class="class-data">{{ $room->roomClass->classes_name }}</span>
+                    </div>
+                </div>
+
+                <p class="description__text" style="text-align: justify;">
+                <div>{{ $room->description }}</div>
+                </p>
+                <div class="description__footer">
+                    <div class="facilities-rules-container">
+                        <div class="facilities-section">
+                            <h5>Fasilitas Kost:</h5>
+                            <ul>
+                                @foreach (json_decode($kost->facilities) as $facility)
+                                    <li>{{ $facility }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="rules-section">
+                            <h5>Fasilitas Kamar:</h5>
+                            <ul>
+                                @foreach (json_decode($room->facilities) as $facilitiesRoom)
+                                    <li>{{ $facilitiesRoom }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="contact__content">
+                <div class="contact__header">
+                    <h3>Contact Owner</h3>
+                </div>
+                <div class="social-media-links d-flex justify-content-center" style="margin-bottom: 20px;">
+                    @if ($kost->whatsapp_number)
+                        <a href="https://wa.me/{{ $kost->whatsapp_number }}" class="social-media-link"
+                            title="Chat with us on WhatsApp" target="blank">
+                            <i class='bx bxl-whatsapp' style="font-size: 32px;"></i>
+                        </a>
+                    @else
+                        <a href="#" class="social-media-link" title="Kost doesn't have WhatsApp number">
+                            <i class='bx bxl-whatsapp' style="font-size: 32px;"></i>
+                            <span class="no-social-media-message" style="display: none;">Kost doesn't have WhatsApp
+                                number.</span>
+                        </a>
+                    @endif
+
+                    @if ($kost->facebook)
+                        <a href="{{ $kost->facebook }}" class="social-media-link" title="Visit our Facebook page">
+                            <i class='bx bxl-facebook' style="font-size: 32px;"></i>
+                        </a>
+                    @else
+                        <a href="#" class="social-media-link" title="Kost doesn't have Facebook link">
+                            <i class='bx bxl-facebook' style="font-size: 32px;"></i>
+                            <span class="no-social-media-message" style="display: none;">Kost doesn't have Facebook
+                                link.</span>
+                        </a>
+                    @endif
+                    @if ($kost->instagram)
+                        <a href="{{ $kost->instagram }}" class="social-media-link" title="Follow us on Instagram">
+                            <i class='bx bxl-instagram' style="font-size: 32px;"></i>
+                        </a>
+                    @else
+                        <a href="#" class="social-media-link" title="Kost doesn't have Instagram link">
+                            <i class='bx bxl-instagram' style="font-size: 32px;"></i>
+                            <span class="no-social-media-message" style="display: none;">Kost doesn't have Instagram
+                                link.</span>
+                        </a>
+                    @endif
+
+                    @if ($kost->twitter)
+                        <a href="{{ $kost->twitter }}" class="social-media-link" title="Follow us on Twitter">
+                            <i class='bx bxl-twitter' style="font-size: 32px;"></i>
+                        </a>
+                    @else
+                        <a href="#" class="social-media-link" title="Kost doesn't have Twitter link">
+                            <i class='bx bxl-twitter' style="font-size: 32px;"></i>
+                            <span class="no-social-media-message" style="display: none;">Kost doesn't have Twitter
+                                link.</span>
+                        </a>
+                    @endif
+                </div>
+            </article>
+        </div>
+    </div>
+
 
     <!-- Menampilkan daftar kamar -->
     <!-- Menambahkan kamar lain yang tersedia -->
+    {{-- <section class="container">
+        <h3 class="section__title">Kamar Lain yang Tersedia</h3>
+        <div class="popular__container grid">
+            @foreach ($otherAvailableRooms as $otherRoom)
+                <article class="property__card">
+                    <a href="{{ route('rooms.show', $otherRoom->slug) }}" class="other-room-link"
+                        data-room-slug="{{ $otherRoom->slug }}">
+                        <div class="property__images">
+                            @php
+                                $otherRoomMediaFiles = json_decode($otherRoom->rooms_media, true);
+                            @endphp
+
+                            @if (!empty($otherRoomMediaFiles) && $otherRoomMediaFiles[0] != '')
+                                <img src="{{ asset($otherRoomMediaFiles[0]) }}" alt="{{ $otherRoom->rooms_name }}"
+                                    class="property__img" />
+                            @else
+                                <img src="{{ asset('placeholder.jpg') }}" alt="No Room Image" class="property__img" />
+                            @endif
+                            <span class="property__badge">{{ $otherRoom->status }}</span>
+                        </div>
+                        <div class="property__data">
+                            <h3 class="property__title">{{ $otherRoom->rooms_name }}</h3>
+                            <span class="property__description">{{ $otherRoom->description }}</span>
+                            <span class="property__description">{{ $otherRoom->roomClass->classes_name }}</span>
+                        </div>
+                    </a>
+                </article>
+            @endforeach
+        </div>
+    </section> --}}
+
     <section class="container">
         <h3 class="section__title">Kamar Lain yang Tersedia</h3>
+        @if ($otherAvailableRooms->where('status', 'Tersedia')->count() > 0)
+            <div class="popular__container grid">
+                @foreach ($otherAvailableRooms->where('status', 'Tersedia') as $otherRoom)
+                    <article class="property__card">
+                        <a href="{{ route('rooms.show', $otherRoom->slug) }}" class="other-room-link"
+                            data-room-slug="{{ $otherRoom->slug }}">
+                            <div class="property__images">
+                                @php
+                                    $otherRoomMediaFiles = json_decode($otherRoom->rooms_media, true);
+                                @endphp
+
+                                @if (!empty($otherRoomMediaFiles) && $otherRoomMediaFiles[0] != '')
+                                    <img src="{{ asset($otherRoomMediaFiles[0]) }}" alt="{{ $otherRoom->rooms_name }}"
+                                        class="property__img" />
+                                @else
+                                    <img src="{{ asset('placeholder.jpg') }}" alt="No Room Image"
+                                        class="property__img" />
+                                @endif
+                                <span class="property__badge">{{ $otherRoom->status }}</span>
+                            </div>
+                            <div class="property__data">
+                                <h3 class="property__title">{{ $otherRoom->rooms_name }}</h3>
+                                <span class="property__description">{{ $otherRoom->description }}</span>
+                                <span class="property__description">{{ $otherRoom->roomClass->classes_name }}</span>
+                            </div>
+                        </a>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            <p>Tidak ada kamar yang kosong</p>
+        @endif
+
+        <h3 class="section__title">Kamar Lain</h3>
         <div class="popular__container grid">
             @foreach ($otherAvailableRooms as $otherRoom)
                 <article class="property__card">
@@ -524,5 +734,90 @@
 
     .popular__container {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .price-section,
+    .class-section {
+        /* margin-bottom: 10px; */
+        font-weight: bold;
+        margin-top: 10px;
+        /* Add space below the price section */
+    }
+
+    .price-data,
+    .class-data {
+        color: rgb(0, 0, 0);
+        /* Set price color to red */
+    }
+
+    .price-label,
+    .class-label {
+        font-weight: normal;
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+        /* Less emphasis than price data */
+    }
+
+    ////////
+    .home__title,
+    .home__title2 {
+        text-align: center;
+    }
+
+    .content-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .media-section {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-section {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .home__img-container {
+        /* text-align: left; */
+        text-align: center;
+    }
+
+    .home__img-container img {
+        max-width: 100%;
+        /* or a fixed width, e.g. 300px */
+        max-height: 300px;
+        /* or a fixed height */
+        object-fit: cover;
+        /* keep the image aspect ratio */
+    }
+
+    .galleries {
+        text-align: left;
+        margin-top: 1rem;
+        /* Tambahkan jarak dari gambar utama */
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .galleries img {
+        width: 45%;
+        /* Ubah ukuran gambar galeri */
+        margin: 0.5rem;
+    }
+
+    .description__content {
+        order: 1;
+        /* Memastikan deskripsi berada di atas contact owner */
+    }
+
+    .contact__content {
+        order: 2;
+        margin-top: 2rem;
+        /* Memastikan contact owner berada di bawah deskripsi */
     }
 </style>

@@ -12,6 +12,7 @@
                     <th>Nama Kamar</th>
                     <th>Nama Kost</th>
                     <th>Kelas Kamar</th>
+                    <th>Harga Kamar</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -22,15 +23,16 @@
                         <td>{{ $room->rooms_name }}</td>
                         <td>{{ $room->kost->name_kost }}</td>
                         <td>{{ $room->roomClass->classes_name }}</td>
+                        <td>{{ $room->roomClass->price }}</td>
                         <td>
                             <form action="{{ route('rooms.update.status', $room->id) }}" method="POST"
                                 style="display:inline-block;">
                                 @csrf
                                 @method('PATCH')
                                 <select name="status" onchange="this.form.submit()">
-                                    <option value="available" {{ $room->status == 'available' ? 'selected' : '' }}>Available
+                                    <option value="Tersedia" {{ $room->status == 'Tersedia' ? 'selected' : '' }}>Tersedia
                                     </option>
-                                    <option value="rented" {{ $room->status == 'rented' ? 'selected' : '' }}>Rented</option>
+                                    <option value="Penuh" {{ $room->status == 'Penuh' ? 'selected' : '' }}>Penuh</option>
                                 </select>
                             </form>
                         </td>

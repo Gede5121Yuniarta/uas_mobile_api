@@ -10,32 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        // Schema::create('rooms', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->unsignedBigInteger('kost_id');
-        //     $table->unsignedBigInteger('class_id');
-        //     // $table->enum('status', ['available', 'rented'])->default('available');
-        //     $table->string('rooms_name');
-
-        //     $table->string('slug');
-        //     $table->enum('status', ['available', 'rented'])->default('available');
-        //     $table->text('description')->nullable();
-        //     $table->text('facilities')->nullable();
-        //     $table->integer('clicks')->default(0);
-        //     $table->text('rooms_media')->nullable();
-        //     $table->timestamps();
-
-        //     $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
-        //     $table->foreign('class_id')->references('id')->on('room_classes')->onDelete('cascade');
-        // });
-
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kost_id');
             $table->unsignedBigInteger('class_id');
             $table->string('rooms_name');
             $table->string('slug')->unique();
-            $table->enum('status', ['available', 'rented'])->default('available');
+            $table->enum('status', ['Tersedia', 'Penuh'])->default('Tersedia');
             $table->text('description')->nullable();
             $table->text('facilities')->nullable();
             $table->integer('clicks')->default(0);
