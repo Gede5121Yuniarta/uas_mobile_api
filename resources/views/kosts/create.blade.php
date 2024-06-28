@@ -19,7 +19,7 @@
                     <div class="form-group">
                         <label for="description">Description:</label>
                         <input id="description" name="description" type="hidden" value="{{ old('description') }}">
-                        <trix-editor input="description" class="form-control"></trix-editor>
+                        <trix-editor input="description" class="form-control" style="max-height: 200px; overflow-y: auto;"></trix-editor>
                     </div>
                     {{-- <div class="form-group">
                         <label for="kost_type">Type:</label>

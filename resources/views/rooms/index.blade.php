@@ -14,6 +14,7 @@
                     <th>Kelas Kamar</th>
                     <th>Harga Kamar</th>
                     <th>Status</th>
+                    <th>Jumlah Kamar</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -34,6 +35,15 @@
                                     </option>
                                     <option value="Penuh" {{ $room->status == 'Penuh' ? 'selected' : '' }}>Penuh</option>
                                 </select>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{{ route('rooms.update.jumlah_kamar', $room->id) }}" method="POST"
+                                style="display:inline-block;">
+                                @csrf
+                                @method('PATCH')
+                                <input type="number" name="jumlah_kamar" value="{{ $room->jumlah_kamar }}"
+                                    onchange="this.form.submit()">
                             </form>
                         </td>
                         <td>

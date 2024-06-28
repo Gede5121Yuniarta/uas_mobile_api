@@ -177,7 +177,7 @@
                     <!-- header content -->
                 </div>
                 <p class="description__text" style="text-align: justify;">
-                <div>{{ $kost->description }}</div>
+                <div>{{ strip_tags($kost->description) }}</div>
                 </p>
                 <div class="description__footer">
                     <div id="map"></div>
@@ -268,6 +268,41 @@
     </div>
 
     <!-- Menampilkan daftar kamar -->
+    {{-- <section class="container">
+        <h3 class="section__title">Daftar Kamar</h3>
+        <div class="popular__container grid">
+            @foreach ($rooms as $room)
+                <article class="property__card">
+                    <a href="{{ route('rooms.show', $room->slug) }}">
+                        <div class="property__images">
+                            @php
+                                $mediaFiles = json_decode($room->rooms_media, true);
+                            @endphp
+                            @if (!empty($mediaFiles) && $mediaFiles[0] != '')
+                                <img class="property__img" src="{{ asset($mediaFiles[0]) }}"
+                                    alt="{{ $room->rooms_name }}" />
+                            @else
+                                <p>No media available.</p>
+                                <img src="{{ asset('placeholder.jpg') }}" alt="No Room Image" class="property__img" />
+                            @endif
+                            <span class="property__badge">{{ $room->status }}</span>
+                        </div>
+                        <div class="property__data">
+                            <h3 class="property__title">{{ $room->rooms_name }}</h3>
+                            <span class="property__description">{{ $room->roomClass->price }}</span>
+                            <span class="property__description">{{ $room->roomClass->classes_name }}</span>
+                        </div> 
+                        <div class="property__data">
+                            <h3 class="property__title">{{ $room->rooms_name }}</h3>
+                            <span class="property__description"><b>{{ $room->roomClass->price }}</b></span>
+                            <span class="property__description">{{ $room->roomClass->classes_name }}</span>
+                        </div>
+                    </a>
+                </article>
+            @endforeach
+        </div>
+    </section> --}}
+
     <section class="container">
         <h3 class="section__title">Daftar Kamar</h3>
         <div class="popular__container grid">
@@ -282,16 +317,14 @@
                                 <img class="property__img" src="{{ asset($mediaFiles[0]) }}"
                                     alt="{{ $room->rooms_name }}" />
                             @else
-                                {{-- <p>No media available.</p> --}}
                                 <img src="{{ asset('placeholder.jpg') }}" alt="No Room Image" class="property__img" />
                             @endif
-                            <span class="property__badge">{{ $room->status }}</span>
+                            <span class="property__badge">
+                                {{ $room->status }}
+                                <br>
+                                <small>{{ $room->jumlah_kamar }} Kamar Tersedia</small> <!-- Menampilkan jumlah kamar -->
+                            </span>
                         </div>
-                        {{-- <div class="property__data">
-                            <h3 class="property__title">{{ $room->rooms_name }}</h3>
-                            <span class="property__description">{{ $room->roomClass->price }}</span>
-                            <span class="property__description">{{ $room->roomClass->classes_name }}</span>
-                        </div> --}}
                         <div class="property__data">
                             <h3 class="property__title">{{ $room->rooms_name }}</h3>
                             <span class="property__description"><b>{{ $room->roomClass->price }}</b></span>
@@ -302,6 +335,7 @@
             @endforeach
         </div>
     </section>
+
 
 @endsection
 

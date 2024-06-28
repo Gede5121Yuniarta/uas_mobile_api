@@ -112,5 +112,6 @@ Route::resource('room_classes', RoomClassController::class);
 
 Route::resource('rooms', RoomController::class);
 Route::patch('rooms/{room}/status', [RoomController::class, 'updateStatus'])->name('rooms.update.status');
+Route::patch('/rooms/{room}/update-jumlah-kamar', [RoomController::class, 'updateJumlahKamar'])->name('rooms.update.jumlah_kamar');
 // Route::get('/rooms/{room:slug}', [RoomController::class, 'show']);
 Route::get('/rooms/{room:slug}', [RoomController::class, 'showRoom'])->name('rooms.show');

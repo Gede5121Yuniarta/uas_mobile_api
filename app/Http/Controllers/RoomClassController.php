@@ -26,6 +26,7 @@ class RoomClassController extends Controller
             'kost_id' => 'required|exists:kosts,id', // Memastikan kost_id diperlukan dan ada di tabel kosts
             'classes_name' => 'required|string|max:255', // Memastikan classes_name diperlukan
             'price' => 'required|numeric',
+            'facilities' => 'nullable|array',
         ]);
 
         // Menyimpan room class dengan nilai kost_id, classes_name, dan price dari request
@@ -33,6 +34,7 @@ class RoomClassController extends Controller
         $roomClass->kost_id = $request->kost_id;
         $roomClass->classes_name = $request->classes_name;
         $roomClass->price = $request->price;
+        $roomClass->facilities = json_encode($request->input('facilities', []));
         $roomClass->save();
 
         return redirect()->route('room_classes.index')->with('success', 'Room Class created successfully.');
@@ -55,12 +57,14 @@ class RoomClassController extends Controller
             'kost_id' => 'required|exists:kosts,id', // Memastikan kost_id diperlukan dan ada di tabel kosts
             'classes_name' => 'required|string|max:255', // Memastikan classes_name diperlukan
             'price' => 'required|numeric',
+            'facilities' => 'nullable|array',
         ]);
 
         // Memperbarui room class dengan nilai kost_id, classes_name, dan price dari request
         $roomClass->kost_id = $request->kost_id;
         $roomClass->classes_name = $request->classes_name;
         $roomClass->price = $request->price;
+        $roomClass->facilities = json_encode($request->input('facilities', []));
         $roomClass->save();
 
         return redirect()->route('room_classes.index')->with('success', 'Room Class updated successfully.');

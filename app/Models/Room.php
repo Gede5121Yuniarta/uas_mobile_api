@@ -18,10 +18,11 @@ class Room extends Model
         'class_id',
         'rooms_name',
         'description',
-        'facilities',
+        // 'facilities',
         'media',
         'status', // Kolom status
-        'slug', 
+        'slug',
+        'jumlah_kamar',
     ];
 
     public function kost()

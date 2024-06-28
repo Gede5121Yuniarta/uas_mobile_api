@@ -11,6 +11,7 @@ class RoomClass extends Model
     protected $fillable = [
         'kost_id',
         'classes_name',
+        'facilities',
         'price',
     ];
 

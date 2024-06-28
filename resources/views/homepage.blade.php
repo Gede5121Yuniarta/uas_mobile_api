@@ -1,31 +1,4 @@
 @php
-    // $properties = [
-    //     [
-    //         'slug' => 'property-1',
-    //         'photo' => 'frontend/assets/images/detail-1.jpg',
-    //         'category' => 'Boarding house aa',
-    //         'price' => 250000,
-    //         'name' => 'Women',
-    //         'address' => '1 room',
-    //     ],
-    //     [
-    //         'slug' => 'property-2',
-    //         'photo' => 'frontend/assets/images/detail-2.jpg',
-    //         'category' => 'Boarding house ab',
-    //         'price' => 250000,
-    //         'name' => 'Man',
-    //         'address' => '3 room',
-    //     ],
-    //     [
-    //         'slug' => 'property-3',
-    //         'photo' => 'frontend/assets/images/detail-3.jpg',
-    //         'category' => 'Boarding house ac',
-    //         'price' => 250000,
-    //         'name' => 'Mixed',
-    //         'address' => '6 room',
-    //     ],
-    // ];
-
     // Mengelompokkan kosts berdasarkan brand_name
     $groupedKosts = $kosts->groupBy(function ($item) {
         return $item->admin->brand_name;
@@ -68,22 +41,6 @@
                                 class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                 Log in
                             </a>
-
-                            {{-- @if (Route::has('register'))
-                                <div class="relative">
-                                    <a href="#" id="register-link"
-                                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
-                                        Register
-                                    </a>
-                                    <div id="register-dropdown" class="absolute hidden bg-white shadow-lg rounded-md mt-2">
-                                        <a href="{{ route('register.user') }}"
-                                            class="block px-4 py-2 text-black hover:bg-gray-100">Pencari Kos</a>
-                                        <a href="{{ route('register.admin') }}"
-                                            class="block px-4 py-2 text-black hover:bg-gray-100">Pemilik Kos</a>
-                                    </div>
-                                </div>
-                            @endif --}}
-
                             @if (Route::has('register'))
                                 <div class="relative">
                                     <a href="#" id="register-link"

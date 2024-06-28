@@ -40,33 +40,7 @@
             <div class="form-group">
                 <label for="description">Description:</label>
                 <input id="description" name="description" type="hidden" value="{{ old('description', $room->description) }}">
-                <trix-editor input="description" class="form-control"></trix-editor>
-            </div>
-            <div class="form-group">
-                <label for="facilities">Facilities:</label>
-                <div id="facilities-container" class="mb-2">
-                    @if (old('facilities', json_decode($room->facilities, true)))
-                        @foreach (old('facilities', json_decode($room->facilities, true)) as $facility)
-                            <div class="input-group mb-2">
-                                <input type="text" name="facilities[]" class="facility-input form-control"
-                                    value="{{ $facility }}">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-danger" onclick="removeFacility(this)">-</button>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="input-group mb-2">
-                            <input type="text" name="facilities[]" class="facility-input form-control">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-danger" onclick="removeFacility(this)">-</button>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <button type="button" onclick="addFacility()" class="btn btn-sm btn-primary">
-                    <i class="fa fa-plus"></i> Add Facility
-                </button>
+                <trix-editor input="description" class="form-control" style="max-height: 200px; overflow-y: auto;"></trix-editor>
             </div>
             <div class="form-group">
                 <label for="rooms_media">Media:</label>
@@ -78,6 +52,11 @@
                 @if ($room->rooms_media)
                     <p>Current Media: {{ $room->rooms_media }}</p>
                 @endif
+            </div>
+            <div class="form-group">
+                <label for="jumlah_kamar">Jumlah Kamar:</label>
+                <input type="number" id="jumlah_kamar" name="jumlah_kamar" class="form-control"
+                    value="{{ old('jumlah_kamar', $room->jumlah_kamar) }}" required>
             </div>
             <hr>
             <div class="row">

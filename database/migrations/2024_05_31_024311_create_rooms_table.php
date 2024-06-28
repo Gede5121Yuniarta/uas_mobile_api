@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->string('slug')->unique();
             $table->enum('status', ['Tersedia', 'Penuh'])->default('Tersedia');
             $table->text('description')->nullable();
-            $table->text('facilities')->nullable();
+            $table->integer('jumlah_kamar');
+            // $table->text('facilities')->nullable();
             $table->integer('clicks')->default(0);
             $table->text('rooms_media')->nullable();
             $table->timestamps();

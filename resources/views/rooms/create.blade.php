@@ -19,9 +19,6 @@
                 <label for="class_id">Class:</label>
                 <select id="class_id" name="class_id" class="form-control" required>
                     @foreach ($roomClasses as $roomClass)
-                        {{-- <option value="{{ $roomClass->id }}" {{ old('class_id') == $roomClass->id ? 'selected' : '' }}>
-                            {{ $roomClass->classes_name }} - Rp{{ number_format($roomClass->price, 2) }}
-                        </option> --}}
                         <option value="{{ $roomClass->id }}" {{ old('class_id') == $roomClass->id ? 'selected' : '' }}>
                             {{ $roomClass->classes_name }} - {{ $roomClass->price }}
                         </option>
@@ -37,36 +34,16 @@
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
             </div> --}}
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="description">Description:</label>
                 <input id="description" name="description" type="hidden" value="{{ old('description') }}">
                 <trix-editor input="description" class="form-control"></trix-editor>
-            </div>
+            </div> --}}
             <div class="form-group">
-                <label for="facilities">Facilities:</label>
-                <div id="facilities-container" class="mb-2">
-                    @if (old('facilities'))
-                        @foreach (old('facilities') as $facility)
-                            <div class="input-group mb-2">
-                                <input type="text" name="facilities[]" class="facility-input form-control"
-                                    value="{{ $facility }}">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-danger" onclick="removeFacility(this)">-</button>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="input-group mb-2">
-                            <input type="text" name="facilities[]" class="facility-input form-control">
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-danger" onclick="removeFacility(this)">-</button>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <button type="button" onclick="addFacility()" class="btn btn-sm btn-primary">
-                    <i class="fa fa-plus"></i> Add Facility
-                </button>
+                <label for="description">Description:</label>
+                <input id="description" name="description" type="hidden" value="{{ old('description') }}">
+                <trix-editor input="description" class="form-control"
+                    style="max-height: 200px; overflow-y: auto;"></trix-editor>
             </div>
             <div class="form-group">
                 <label for="rooms_media">Media:</label>
@@ -75,6 +52,11 @@
                         onchange="showUploadedFiles(this)">
                     <label class="custom-file-label" id="selectedFiles" for="rooms_media">Choose files</label>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="jumlah_kamar">Jumlah Kamar:</label>
+                <input type="number" id="jumlah_kamar" name="jumlah_kamar" class="form-control"
+                    value="{{ old('jumlah_kamar') }}" required>
             </div>
             <hr>
             <div class="row">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('kost_id'); // Kolom referensi ke tabel kosts
             $table->string('classes_name');
             $table->decimal('price', 10, 2);
+            $table->text('facilities')->nullable();
             $table->timestamps();
         });
     }

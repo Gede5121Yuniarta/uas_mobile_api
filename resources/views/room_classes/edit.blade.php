@@ -35,6 +35,34 @@
                                 value="{{ $roomClass->price }}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="facilities">Facilities:</label>
+                        <div id="facilities-container" class="mb-2">
+                            @if (old('facilities', json_decode($roomClass->facilities, true)))
+                                @foreach (old('facilities', json_decode($roomClass->facilities, true)) as $facility)
+                                    <div class="input-group mb-2">
+                                        <input type="text" name="facilities[]" class="facility-input form-control"
+                                            value="{{ $facility }}">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeFacility(this)">-</button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="input-group mb-2">
+                                    <input type="text" name="facilities[]" class="facility-input form-control">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="removeFacility(this)">-</button>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <button type="button" onclick="addFacility()" class="btn btn-sm btn-primary">
+                            <i class="fa fa-plus"></i> Add Facility
+                        </button>
+                    </div>
                 </div>
             </div>
             <hr>
@@ -49,6 +77,24 @@
 
 @section('scripts')
     <script>
+        window.addFacility = function() {
+            var container = document.getElementById('facilities-container');
+            var div = document.createElement('div');
+            div.className = 'input-group mb-2';
+            div.innerHTML = `
+                <input type="text" name="facilities[]" class="facility-input form-control">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" onclick="removeFacility(this)">-</button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        window.removeFacility = function(button) {
+            var container = document.getElementById('facilities-container');
+            container.removeChild(button.parentElement.parentElement);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             var priceInput = document.getElementById('price');
             priceInput.addEventListener('input', function() {
