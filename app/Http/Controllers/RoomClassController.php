@@ -5,18 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\RoomClass;
 use App\Models\Kost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoomClassController extends Controller
 {
+
     public function index()
     {
-        $roomClasses = RoomClass::paginate(10);
+        $user = Auth::user();
+        $roomClasses = RoomClass::where('owner_id', $user->id)->latest()->paginate(10);
+
         return view('room_classes.index', compact('roomClasses'));
     }
 
     public function create()
     {
-        $kosts = Kost::all();
+        $user = Auth::user();
+        $kosts = Kost::where('owner_id', $user->id)->get();
         return view('room_classes.create', compact('kosts'));
     }
 
@@ -32,6 +37,7 @@ class RoomClassController extends Controller
         // Menyimpan room class dengan nilai kost_id, classes_name, dan price dari request
         $roomClass = new RoomClass();
         $roomClass->kost_id = $request->kost_id;
+        $roomClass->owner_id = auth()->id();
         $roomClass->classes_name = $request->classes_name;
         $roomClass->price = $request->price;
         $roomClass->facilities = json_encode($request->input('facilities', []));
@@ -42,12 +48,14 @@ class RoomClassController extends Controller
 
     public function show(RoomClass $roomClass)
     {
+        $this->authorize('view', $roomClass);
         return view('room_classes.show', compact('roomClass'));
     }
 
     public function edit(RoomClass $roomClass)
     {
-        $kosts = Kost::all();
+        $user = Auth::user();
+        $kosts = Kost::where('owner_id', $user->id)->get();
         return view('room_classes.edit', compact('roomClass', 'kosts'));
     }
 

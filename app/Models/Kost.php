@@ -64,4 +64,10 @@ class Kost extends Model
             $kost->slug = Str::slug($kost->name_kost);
         });
     }
+
+    public static function getKost(){
+        $return=DB::table('kosts')
+        ->join('users','kosts.owner_id', '=', 'users.id');
+        return $return;
+    }
 }

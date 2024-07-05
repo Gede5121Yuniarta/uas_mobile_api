@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -19,10 +20,13 @@ class Room extends Model
         'rooms_name',
         'description',
         // 'facilities',
-        'media',
+        // 'media',
+        'rooms_media',
         'status', // Kolom status
         'slug',
         'jumlah_kamar',
+        'owner_id',
+        'clicks',
     ];
 
     public function kost()
@@ -69,4 +73,28 @@ class Room extends Model
             $room->slug = "{$kostSlug}-{$roomSlug}";
         });
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');  // Menggunakan owner_id sebagai foreign key
+    }
+
+    // public static function getRoom(){
+    //     $return = DB::table('rooms')
+    //         ->join('kosts', 'rooms.kost_id', '=', 'kosts.id')
+    //         ->join('room_classes', 'rooms.class_id', '=', 'class.id')
+    //         ->select('rooms.*', 'kosts.*', 'room_classes.*')
+    //         ->get();
+    //     return $return;
+    // }
+    public static function getRoom(){
+        $return = DB::table('rooms')
+            ->join('kosts', 'rooms.kost_id', '=', 'kosts.id')
+            ->join('room_classes', 'rooms.class_id', '=', 'room_classes.id')
+            ->select('rooms.*', 'kosts.*', 'room_classes.*')
+            ->get();
+        return $return;
+    }
+
+
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\API\KostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +44,18 @@ Route::middleware(['auth:api', 'checkType:super admin'])->group(function () {
 });
 
 // Route::resource('kost', KostController::class);
-// Route::get('/kost', [KostController::class, 'index']);
+Route::get('/kost', [KostController::class, 'index']);
+Route::get('/room', [RoomController::class, 'index']);
+Route::get('/room/{kostId}', [RoomController::class, 'getRoomsByKost']);
+Route::get('/roomclass', [RoomController::class, 'index']);
+
+Route::post('kost/{owner_id}', [KostController::class, 'store']);
+Route::get('/kost/{owner_id}', [KostController::class, 'getKostByOwnerId']);
+Route::delete('/kost/{owner_id}/{id}', [KostController::class, 'destroy']);
+Route::put('/kost/{owner_id}/{id}', [KostController::class, 'update']);
+
+
+
 
 // Route::group(['middleware'=>'auth:sanctum'], function(){
 //     Route::resource('kost', KostController::class);

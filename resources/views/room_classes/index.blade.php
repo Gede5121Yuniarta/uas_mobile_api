@@ -23,15 +23,15 @@
                         <td>{{ $roomClass->classes_name }}</td>
                         <td>{{ $roomClass->kost->name_kost }}</td>
                         <td>{{ $roomClass->price }}</td>
-                        {{-- <td>{{ 'Rp' . number_format(preg_replace('/[^0-9]/', '', $roomClass->price), 0, ',', '.') }}</td> --}}
                         <td>
                             <a href="{{ route('room_classes.edit', $roomClass->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                            <form action="{{ route('room_classes.destroy', $roomClass->id) }}" method="POST"
-                                style="display:inline-block;">
+                            <button type="button" class="btn btn-sm btn-danger"
+                                onclick="confirmDelete('{{ $roomClass->id }}')">Delete</button>
+                            <form id="delete-form-{{ $roomClass->id }}"
+                                action="{{ route('room_classes.destroy', $roomClass->id) }}" method="POST"
+                                style="display: none;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this room class?')">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -40,4 +40,25 @@
         </table>
         {{ $roomClasses->links() }}
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(roomClassId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + roomClassId).submit();
+                }
+            });
+        }
+    </script>
 @endsection

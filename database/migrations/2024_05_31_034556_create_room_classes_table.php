@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('room_classes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('kost_id'); // Kolom referensi ke tabel kosts
+            $table->unsignedBigInteger('owner_id'); // Kolom referensi ke tabel users
             $table->string('classes_name');
             $table->decimal('price', 10, 2);
             $table->text('facilities')->nullable();
             $table->timestamps();
+
+            $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users');
         });
     }
 

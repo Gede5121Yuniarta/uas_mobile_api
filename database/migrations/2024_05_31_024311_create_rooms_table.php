@@ -19,13 +19,14 @@ return new class extends Migration {
             $table->enum('status', ['Tersedia', 'Penuh'])->default('Tersedia');
             $table->text('description')->nullable();
             $table->integer('jumlah_kamar');
-            // $table->text('facilities')->nullable();
+            $table->unsignedBigInteger('owner_id'); // Add this column
             $table->integer('clicks')->default(0);
             $table->text('rooms_media')->nullable();
             $table->timestamps();
 
             $table->foreign('kost_id')->references('id')->on('kosts')->onDelete('cascade');
             $table->foreign('class_id')->references('id')->on('room_classes')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade'); // Add this foreign key
         });
     }
 

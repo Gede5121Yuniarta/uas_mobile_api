@@ -32,7 +32,7 @@
                                 <span class="input-group-text">Rp</span>
                             </div>
                             <input type="text" class="form-control" id="price" name="price"
-                                value="{{ $roomClass->price }}">
+                                value="{{ old('price', $roomClass->raw_price) }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -98,7 +98,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             var priceInput = document.getElementById('price');
             priceInput.addEventListener('input', function() {
-                this.value = this.value.replace(/[^\d]/g, ''); // Hanya menerima digit
+                // Hapus semua karakter yang bukan digit
+                var value = this.value.replace(/[^\d]/g, '');
+                this.value = value;
             });
         });
     </script>

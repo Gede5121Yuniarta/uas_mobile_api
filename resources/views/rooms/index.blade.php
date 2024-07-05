@@ -30,7 +30,7 @@
                                 style="display:inline-block;">
                                 @csrf
                                 @method('PATCH')
-                                <select name="status" onchange="this.form.submit()">
+                                <select name="status" style="width: 100px;" onchange="this.form.submit()">
                                     <option value="Tersedia" {{ $room->status == 'Tersedia' ? 'selected' : '' }}>Tersedia
                                     </option>
                                     <option value="Penuh" {{ $room->status == 'Penuh' ? 'selected' : '' }}>Penuh</option>
@@ -42,16 +42,24 @@
                                 style="display:inline-block;">
                                 @csrf
                                 @method('PATCH')
-                                <input type="number" name="jumlah_kamar" value="{{ $room->jumlah_kamar }}"
+                                <input type="number" name="jumlah_kamar" value="{{ $room->jumlah_kamar }}" style="width: 100px;"
                                     onchange="this.form.submit()">
                             </form>
                         </td>
                         <td>
                             <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" style="display:inline;">
+                            {{-- <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form> --}}
+                            <button type="button" class="btn btn-sm btn-danger"
+                                onclick="confirmDelete('{{ $room->id }}')">Delete</button>
+                            <form id="delete-form-{{ $room->id }}"
+                                action="{{ route('rooms.destroy', $room->id) }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                                @method('DELETE')
                             </form>
                         </td>
                     </tr>
@@ -60,4 +68,25 @@
         </table>
         {{ $rooms->links() }}
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(roomsId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + roomsId).submit();
+                }
+            });
+        }
+    </script>
 @endsection
